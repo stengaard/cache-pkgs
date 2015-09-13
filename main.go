@@ -1,22 +1,22 @@
 // Command cache-pkgs caches pacakge directories based on the hash of
 // dependency specification file. Unix only.
 //
-// Usage:
-//    cache-pkgs [opts] <dep-spec-file> <dir> <cmd> [args..]
+//     Usage:
+//        cache-pkgs [opts] <dep-spec-file> <dir> <cmd> [args..]
 //
-// Caches output directory (dir) based on the hash of the dependency
-// specification file. If the specification changes the output directory
-// is regenerated using cmd and the args. Useful in CI settings.
+//     Caches output directory (dir) based on the hash of the dependency
+//     specification file. If the specification changes the output directory
+//     is regenerated using cmd and the args. Useful in CI settings.
 //
-// Example:
-//    cache-pkgs package.json node_modules npm install
+//     Example:
+//        cache-pkgs package.json node_modules npm install
 //
-// Options can be:
-//   -clean
-//     	Clean cache and exit
-//   -f	Force remove existing output directory
-//   -symlink
-//     	Use a symlink instead of copy (default true)
+//     Options can be:
+//       -clean
+//         	Clean cache and exit
+//       -f	Force remove existing output directory
+//       -symlink
+//         	Use a symlink instead of copy (default true)
 package main
 
 import (
