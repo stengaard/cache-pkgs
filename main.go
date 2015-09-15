@@ -62,10 +62,6 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	if flag.NArg() < 3 {
-		exitUsage("please supply both dependency description file, outputdir and the command to generate it")
-	}
-
 	cacheStore, err := cacheDir("")
 	if err != nil {
 		exitWith("Cache dir problems: ", err)
@@ -78,6 +74,10 @@ func main() {
 			exitWith(err)
 		}
 		return
+	}
+
+	if flag.NArg() < 3 {
+		exitUsage("please supply both dependency description file, outputdir and the command to generate it")
 	}
 
 	depDesc := flag.Arg(0)
