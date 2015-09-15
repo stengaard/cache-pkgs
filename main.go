@@ -30,6 +30,7 @@ import (
 	"os/user"
 	"path"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -112,18 +113,18 @@ func main() {
 	// build
 	start := time.Now()
 	if cached {
-		Progress("Installing cached version of dependencies")
+		Progress("Found cached dependencies - installing those")
 		err = Install(depDir, outputdir, *symlink)
 	} else {
-		Progress("Building dependencies and caching them")
+		Progressf("Running `%s %s` and caching the output", cmd, strings.Join(args, " "))
 		err = GenerateAndCache(depDir, outputdir, cmd, args)
 	}
 
 	if err != nil {
-		exitWith("Error:", err)
+		exitWith(err)
 	}
 
-	Progressf("Done in %.2f sec", time.Now().Sub(start).Seconds())
+	Progressf("Succeeded in %.2f sec", time.Now().Sub(start).Seconds())
 }
 
 func Install(from, to string, link bool) (err error) {
