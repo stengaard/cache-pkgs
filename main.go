@@ -158,8 +158,14 @@ func IsDir(d string) (bool, error) {
 
 }
 
+func run(bin string, args ...string) error {
+	cmd := exec.Command(bin, args...)
+	cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
+	return cmd.Run()
+}
+
 func GenerateAndCache(cache, outputdir, cmd string, args []string) error {
-	err := exec.Command(cmd, args...).Run()
+	err := run(cmd, args...)
 	if err != nil {
 		return err
 	}
@@ -168,7 +174,7 @@ func GenerateAndCache(cache, outputdir, cmd string, args []string) error {
 
 //
 func Copy(a, b string) error {
-	return exec.Command("cp", "-R", a, b).Run()
+	return run("cp", "-R", a, b)
 }
 
 func exitUsage(a ...interface{}) {
