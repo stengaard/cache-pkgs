@@ -230,12 +230,16 @@ func cacheDir(dirName string) (dir string, err error) {
 	}
 
 	if dir == "" {
-		u, err := user.Current()
-		if err != nil {
-			return "", err
+		home := os.Getenv("HOME")
+		if home == "" {
+			// os/user uses cgo. Fails under cross-compile.
+			u, err := user.Current()
+			if err != nil {
+				return "", err
+			}
+			home = u.HomeDir
 		}
-
-		dir = path.Join(u.HomeDir, ".dep-cache")
+		dir = path.Join(home, ".dep-cache")
 	}
 
 	err = ensureDir(dir)
