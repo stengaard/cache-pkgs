@@ -207,7 +207,7 @@ func ensureDir(dir string) error {
 
 	info, err := os.Stat(dir)
 	if os.IsNotExist(err) {
-		Progress("creating cahce dir", dir)
+		Progress("creating cache dir", dir)
 		return os.MkdirAll(dir, 0750)
 	}
 	if err != nil {
