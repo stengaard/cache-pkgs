@@ -254,5 +254,6 @@ func Progress(a ...interface{}) {
 }
 
 func ProgressPrint(s string) {
-	fmt.Fprintf(os.Stderr, "==> %s\n", s)
+	prefix := os.Getenv("PREFIX")
+	fmt.Fprintf(os.Stderr, "%s%s\n", prefix, s)
 }
