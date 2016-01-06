@@ -35,9 +35,10 @@ import (
 )
 
 var (
-	symlink = flag.Bool("symlink", true, "Use a symlink instead of copy")
-	force   = flag.Bool("f", false, "Force remove existing output directory")
-	clean   = flag.Bool("clean", false, "Clean cache and exit")
+	symlink    = flag.Bool("symlink", true, "Use a symlink instead of copy")
+	force      = flag.Bool("f", false, "Force remove existing output directory")
+	clean      = flag.Bool("clean", false, "Clean cache and exit")
+	invalidate = flag.String("invalidate", "", "Invalidate the cache for [file]")
 )
 
 func usage() {
@@ -73,6 +74,18 @@ func main() {
 		if err != nil {
 			exitWith(err)
 		}
+		return
+	}
+
+	if *invalidate != "" {
+		h, err := hashFile(*invalidate)
+		if err == nil {
+			err = os.RemoveAll(path.Join(cacheStore, h))
+		}
+		if err != nil {
+			exitWith(err)
+		}
+
 		return
 	}
 
