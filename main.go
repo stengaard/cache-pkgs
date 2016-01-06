@@ -173,9 +173,15 @@ func GenerateAndCache(cache, outputdir, cmd string, args []string) error {
 	return Copy(outputdir, cache)
 }
 
-//
 func Copy(a, b string) error {
-	return run("cp", "-R", a, b)
+	err := run("cp", "-R", a, b)
+	if err != nil {
+		errRm := os.RemoveAll(b)
+		if errRm != nil && !os.IsNotExist(errRm) {
+			return errRm
+		}
+	}
+	return err
 }
 
 func exitUsage(a ...interface{}) {
